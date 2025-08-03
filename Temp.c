@@ -26,7 +26,7 @@ int main()
         	total+=temp[c][w];
        	 
     	}
-    	average=total/4;
+    	average=total/7;
     	total=0.0;
         	printf("\t%f",average);
 	}
