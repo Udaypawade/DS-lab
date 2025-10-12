@@ -1,0 +1,110 @@
+#include <iostream>
+#include <string>
+#define SIZE 100
+using namespace std;
+
+class parenthesis {
+    string stack[SIZE];
+    int top = -1;
+
+public: 
+    int isEmpty() {
+        if (top == -1)
+            return 1;
+        else
+            return 0;
+    }
+
+    int isFull() {
+        if (top == SIZE - 1)
+            return 1;
+        else
+            return 0;
+    }
+
+    void push(string x) {
+        if (isFull()) {
+            cout << "Stack is full" << endl;
+        } else {
+            top++;
+            stack[top] = x;
+            cout << "Inserted: " << x << endl;
+        }
+    }
+
+    void pop() {
+        if (isEmpty()) {
+            cout << "Stack is empty" << endl;
+        } else {
+            string x = stack[top];
+            top--;
+            cout << "Popped: " << x << endl;
+        }
+    }
+
+    string peek() {
+        if (isEmpty()) {
+            cout << "Stack is empty" << endl;
+            return "";
+        }
+        return stack[top];
+    }
+
+    void display() {
+        if (isEmpty()) {
+            cout << "Stack is empty" << endl;
+            return;
+        }
+        cout << "Stack contents: ";
+        for (int i = 0; i <= top; i++) {
+            cout << stack[i] << " ";
+        }
+        cout << endl;
+    }
+
+    int isBalanced(string exp) {
+        string x;
+        for (int i = 0; i < exp.length(); i++) {  
+            string current = "";
+            current += exp[i];  
+
+            if (current == "{" || current == "[" || current == "(") {
+                push(current);
+            } else if (current == "}" || current == "]" || current == ")") {
+                if (isEmpty())
+                    return 0; 
+
+                x = peek();
+
+                if ((current == "}" && x == "{") ||
+                    (current == "]" && x == "[") ||
+                    (current == ")" && x == "(")) {
+                    pop();
+                } else {
+                    return 0; 
+                }
+            }
+        }
+
+        if (isEmpty())
+            return 1;  
+        else
+            return 0;  
+    }
+};
+
+int main() {
+    parenthesis checker;
+    string expr;
+    cout << "Enter the expression: ";
+    cin >> expr;
+
+    if (checker.isBalanced(expr) == 1) {
+        cout << "Balanced" << endl;
+    } else {
+        cout << "Not balanced" << endl;
+    }
+
+    checker.display();
+    return 0;
+}
