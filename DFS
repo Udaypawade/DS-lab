@@ -1,0 +1,59 @@
+#include <iostream>
+#include <string>
+using namespace std;
+#define MAX 10
+class WebCrawlerDFS {
+    int adj[MAX][MAX];     // Adjacency matrix
+    string pages[MAX];     // Page names
+    int n;                 // Number of pages
+
+public:
+    void createGraph();
+    void dfs(int start, int visited[]);
+};
+
+void WebCrawlerDFS::createGraph() {
+    cout << "Enter number of web pages: ";
+    cin >> n;
+
+    cout << "Enter names of web pages:\n";
+    for (int i = 0; i < n; i++) {
+        cout << "Page " << i << ": ";
+        cin >> pages[i];
+    }
+
+    cout << "\nEnter adjacency matrix (1 = link exists, 0 = no link):\n";
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cin >> adj[i][j];
+        }
+    }
+}
+
+// DFS Traversal (Recursive)
+void WebCrawlerDFS::dfs(int start, int visited[]) {
+    visited[start] = 1;
+    cout << "Indexed: " << pages[start] << endl;
+
+    for (int i = 0; i < n; i++) {
+        if (adj[start][i] == 1 && visited[i] == 0) {
+            dfs(i, visited);
+        }
+    }
+}
+// Main Function
+int main() {
+    WebCrawlerDFS web;
+    web.createGraph();
+
+    int start;
+    cout << "\nEnter starting page number (0 to " << MAX - 1 << "): ";
+    cin >> start;
+
+    cout << "\n>>> Performing Depth First Search (DFS) <<<\n";
+    int visited[MAX] = {0};
+    web.dfs(start, visited);
+
+    cout << "\nTraversal completed successfully.\n";
+    return 0;
+}
